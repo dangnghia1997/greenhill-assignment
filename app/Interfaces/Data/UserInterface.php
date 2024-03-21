@@ -12,6 +12,4 @@ interface UserInterface
     const EMAIL = "email";
     const PHONE = "phone";
     const ACTIVE = "active";
-    const CREATED_AT = "created_at";
-    const UPDATED_AT = "updated_at";
 }
