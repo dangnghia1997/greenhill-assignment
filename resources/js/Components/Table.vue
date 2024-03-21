@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {storeToRefs} from "pinia";
 import {useUsersStore} from "@/stores/useUsersStore.js";
 
@@ -8,7 +8,27 @@ const { getMembers } = useUsersStore()
 
 onMounted(async () => {
     await getMembers();
-})
+});
+
+const changedList = ref({});
+
+function onChange(event, userId) {
+    changedList.value[userId] = event.target.value;
+    console.log('selected ', event.target.value, 'userId: ' + userId)
+    console.log(changedList.value)
+}
+
+function onUpdate(event, userId) {
+    console.log('updated ', event.target.value, 'userId: ' + userId)
+    if (userId in changedList.value) {
+        console.log('existed');
+        console.log('HERE ', changedList.value[userId]);
+        const changeToUserId = changedList.value[userId];
+        // TODO: send api update with changeToUserId param
+    }
+}
+
+
 </script>
 
 <template>
@@ -74,7 +94,10 @@ onMounted(async () => {
                         {{ user.group_id }}
                     </td>
                     <td class="px-2 py-4">
-                        <select id="small" class="block max-w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                        <select
+                            @change="onChange($event, user.id)"
+                            id="small"
+                            class="block max-w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                             <option v-for="groupID in availableGroupUserIds" :value="groupID" :selected="groupID === user.group_id">
                                 {{groupID}}
                             </option>
@@ -96,8 +119,10 @@ onMounted(async () => {
                         &nbsp;
                     </td>
                     <td class="px-2 py-4">
-                        <button type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-2 py-1">
+                        <button
+                            @click="onUpdate($event, user.id)"
+                            type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-2 py-1">
                             Update
                         </button>
                     </td>
