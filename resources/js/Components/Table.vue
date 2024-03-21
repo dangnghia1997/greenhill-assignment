@@ -1,5 +1,21 @@
 <script setup>
+import {onMounted} from "vue";
 
+async function load() {
+    try {
+        const {data} = await axios.post(
+            `http://localhost/api/upload`
+        );
+        return data;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+onMounted(async () => {
+    const data = await load();
+    console.log(data);
+})
 </script>
 
 <template>
