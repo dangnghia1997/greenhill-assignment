@@ -33,4 +33,9 @@ class UserService implements UserServiceInterface
     {
         return $this->groupUserRepository->getAvailableGroupIdList();
     }
+
+    public function changeGroupIdTo(int $userId, int $groupId): int
+    {
+        return $this->userRepository->changeGroupIdTo($userId, $groupId);
+    }
 }

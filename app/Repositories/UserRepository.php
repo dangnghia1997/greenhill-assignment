@@ -24,4 +24,15 @@ class UserRepository implements UserRepositoryInterface
         $query = $this->model->newQuery();
         return $query->where(UserInterface::GROUP_ID, $groupId)->paginate($perPage);
     }
+
+    /**
+     * @param int $userId
+     * @param int $groupId
+     * @return int
+     */
+    public function changeGroupIdTo(int $userId, int $groupId): int
+    {
+        $query = $this->model->newQuery();
+        return $query->where('id', $userId)->update(['group_id' => $groupId]);
+    }
 }

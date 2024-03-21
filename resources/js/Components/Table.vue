@@ -28,7 +28,6 @@ function onUpdate(event, userId) {
     }
 }
 
-
 </script>
 
 <template>

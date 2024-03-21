@@ -13,4 +13,11 @@ interface UserRepositoryInterface
      * @return LengthAwarePaginator
      */
     public function getUserByGroupId(int $groupId, int $perPage): LengthAwarePaginator;
+
+    /**
+     * @param int $userId
+     * @param int $groupId
+     * @return int
+     */
+    public function changeGroupIdTo(int $userId, int $groupId): int;
 }
