@@ -39,7 +39,7 @@ class UserController extends Controller
             return response()->json([
                 'success' => $success
             ]);
-        } catch (QueryException $queryException) {
+        } catch (QueryException $exception) {
             $availableGroupIds = $this->userService->getAvailableGroupUserIDs()->pluck('id')->toArray();
             return response()->json([
                 'error' => "change_to value should be in these values [" . implode(",", $availableGroupIds) . "]"
