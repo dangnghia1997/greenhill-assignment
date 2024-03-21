@@ -74,7 +74,11 @@ onMounted(async () => {
                         {{ user.group_id }}
                     </td>
                     <td class="px-2 py-4">
-                        Laptop
+                        <select id="small" class="block max-w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                            <option v-for="groupID in availableGroupUserIds" :value="groupID" :selected="groupID === user.group_id">
+                                {{groupID}}
+                            </option>
+                        </select>
                     </td>
                     <td class="px-2 py-4">
                         {{ user.first_name }}
