@@ -3,7 +3,7 @@ import {onMounted} from "vue";
 import {storeToRefs} from "pinia";
 import {useUsersStore} from "@/stores/useUsersStore.js";
 
-const { users } = storeToRefs(useUsersStore())
+const { users, availableGroupUserIds } = storeToRefs(useUsersStore())
 const { getMembers } = useUsersStore()
 
 onMounted(async () => {

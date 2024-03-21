@@ -5,6 +5,7 @@ import Table from "@/Components/Table.vue";
 import TableActions from "@/Components/TableActions.vue";
 import UploadArea from "@/Components/UploadArea.vue";
 import TableTitle from "@/Components/TableTitle.vue";
+import TablePagination from "@/Components/TablePagination.vue";
 </script>
 
 <template>
@@ -19,6 +20,7 @@ import TableTitle from "@/Components/TableTitle.vue";
             <TableTitle />
             <TableActions />
             <Table />
+            <TablePagination />
         </Group>
     </div>
 </template>

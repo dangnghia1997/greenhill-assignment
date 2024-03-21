@@ -2,11 +2,21 @@
 
 namespace App\Http\Resources;
 
+use App\Interfaces\GroupUserRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserCollection extends ResourceCollection
 {
+    private Collection $availableGroupUserIds;
+
+    public function __construct($resource, Collection $availableGroupUserIds)
+    {
+        parent::__construct($resource);
+        $this->availableGroupUserIds = $availableGroupUserIds;
+    }
+
     /**
      * Transform the resource collection into an array.
      *
@@ -25,7 +35,8 @@ class UserCollection extends ResourceCollection
                     'phone' => $user->phone,
                     'active' => $user->active,
                 ];
-            })
+            }),
+            'available_group_user_ids' => $this->availableGroupUserIds->pluck('id')
         ];
     }
 }

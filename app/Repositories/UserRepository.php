@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Interfaces\Data\UserInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserRepositoryInterface
@@ -15,11 +16,12 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param int $groupId
-     * @return Collection
+     * @param int $perPage
+     * @return LengthAwarePaginator
      */
-    public function getUserByGroupId(int $groupId): Collection
+    public function getUserByGroupId(int $groupId, int $perPage = 25): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
-        return $query->where(UserInterface::GROUP_ID, $groupId)->get();
+        return $query->where(UserInterface::GROUP_ID, $groupId)->paginate($perPage);
     }
 }

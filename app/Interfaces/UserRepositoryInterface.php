@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace App\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface UserRepositoryInterface
 {
     /**
      * @param int $groupId
-     * @return Collection
+     * @param int $perPage
+     * @return LengthAwarePaginator
      */
-    public function getUserByGroupId(int $groupId): Collection;
+    public function getUserByGroupId(int $groupId, int $perPage): LengthAwarePaginator;
 }

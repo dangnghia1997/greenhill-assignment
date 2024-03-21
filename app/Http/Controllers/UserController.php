@@ -19,6 +19,7 @@ class UserController extends Controller
     public function getMembers(Request $request): UserCollection
     {
         $members = $this->userService->getMembers();
-        return new UserCollection($members);
+        $availableGroupUserIds = $this->userService->getAvailableGroupUserIDs();
+        return new UserCollection($members, $availableGroupUserIds);
     }
 }
