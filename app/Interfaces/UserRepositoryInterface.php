@@ -9,10 +9,11 @@ interface UserRepositoryInterface
 {
     /**
      * @param int $groupId
+     * @param array|int[] $ids
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getUserByGroupId(int $groupId, int $perPage): LengthAwarePaginator;
+    public function getUserByGroupId(int $groupId, array $ids, int $perPage): LengthAwarePaginator;
 
     /**
      * @param int $userId

@@ -16,13 +16,16 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param int $groupId
+     * @param array|int[] $ids
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function getUserByGroupId(int $groupId, int $perPage = 25): LengthAwarePaginator
+    public function getUserByGroupId(int $groupId, array $ids, int $perPage = 25): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
-        return $query->where(UserInterface::GROUP_ID, $groupId)->paginate($perPage);
+        return $query->where(UserInterface::GROUP_ID, $groupId)
+            ->whereIn('id', $ids)
+            ->paginate($perPage);
     }
 
     /**

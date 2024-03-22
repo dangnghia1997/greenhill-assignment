@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 
 export const useUsersStore = defineStore('useUsersStore', () => {
+    const fileId = ref(null)
     const rawData = ref([])
     const users = computed(() => rawData.value?.data || []);
     const pageMeta = computed(() => rawData.value?.meta || {})
@@ -24,7 +25,7 @@ export const useUsersStore = defineStore('useUsersStore', () => {
     async function getMembers() {
         try {
             const {data} = await axios.get(
-                `http://localhost/api/members?page=${page.value}`
+                `http://localhost/api/members?file_id=${fileId.value}&page=${page.value}`
             );
             rawData.value = data;
             return data;
@@ -56,5 +57,5 @@ export const useUsersStore = defineStore('useUsersStore', () => {
         }
     }
 
-    return {rawData, users, pageMeta, availableGroupUserIds, getMembers, updateGroupId, bulkUpdateGroupId, page, goNextPage, goPrevPage};
+    return {fileId, rawData, users, pageMeta, availableGroupUserIds, getMembers, updateGroupId, bulkUpdateGroupId, page, goNextPage, goPrevPage};
 });

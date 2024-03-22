@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Collection;
 interface UserServiceInterface
 {
     /**
+     * @param int $fileId
      * @return LengthAwarePaginator
      */
-    public function getMembers(): LengthAwarePaginator;
+    public function getMembers(int $fileId): LengthAwarePaginator;
 
     /**
      * @return Collection|array

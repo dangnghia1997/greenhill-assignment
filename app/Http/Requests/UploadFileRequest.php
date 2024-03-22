@@ -23,8 +23,7 @@ class UploadFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'file' => 'required|mimes:csv,xls,xlsx|max:2048',
-            'file' => 'max:2048'
+            'file' => 'required|mimes:csv,xls,xlsx|max:2048',
         ];
     }
 }
