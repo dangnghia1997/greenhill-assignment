@@ -1,24 +1,28 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {useUsersStore} from "@/stores/useUsersStore.js";
+import {useChangesStore} from "@/stores/useChangesStore.js";
+import {useSelectsStore} from "@/stores/useSelectsStore.js";
 
 const { users, availableGroupUserIds } = storeToRefs(useUsersStore())
 const { getMembers, updateGroupId } = useUsersStore()
+const { resetChanges, addChange, hasChange, getChange } = useChangesStore()
+const { selected } = storeToRefs(useSelectsStore())
+const {setSelected} = useSelectsStore()
 
 onMounted(async () => {
+    resetChanges();
     await getMembers();
 });
 
-const changedList = ref({});
-
 function onChange(event, userId) {
-    changedList.value[userId] = event.target.value;
+    addChange(userId, event.target.value);
 }
 
 async function onUpdate(event, userId) {
-    if (userId in changedList.value) {
-        const changeToUserId = changedList.value[userId];
+    if (hasChange(userId)) {
+        const changeToUserId = getChange(userId);
         const success = await updateGroupId(userId, changeToUserId);
         if (success) {
             getMembers();
@@ -26,6 +30,16 @@ async function onUpdate(event, userId) {
         }
     }
 }
+
+const selectedAll = ref(false)
+watch(selectedAll, (isSelected) => {
+    if (isSelected) {
+        const userIDs = users.value.map(user => user.id);
+        setSelected([...userIDs])
+    } else {
+        setSelected([])
+    }
+})
 
 </script>
 
@@ -36,7 +50,11 @@ async function onUpdate(event, userId) {
             <tr>
                 <th scope="col" class="p-4">
                     <div class="flex items-center">
-                        <input id="checkbox-all" type="checkbox"
+                        <input
+                            v-model="selectedAll"
+                            :value="true"
+                             id="checkbox-all"
+                               type="checkbox"
                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="checkbox-all" class="sr-only">checkbox</label>
                     </div>
@@ -77,9 +95,12 @@ async function onUpdate(event, userId) {
                 <tr class="bg-white border-b text-sm hover:bg-gray-50" v-for="(user, idx) in users" :key="user">
                     <td class="w-4 p-4">
                         <div class="flex items-center">
-                            <input id="checkbox-table-1" type="checkbox"
+                            <input :id="`user_${user.id}`"
+                                   :value="user.id"
+                                   v-model="selected"
+                                   type="checkbox"
                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                            <label :for="`user_${user.id}`" class="sr-only">checkbox</label>
                         </div>
                     </td>
                     <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
