@@ -34,5 +34,17 @@ export const useUsersStore = defineStore('useUsersStore', () => {
         }
     }
 
-    return {rawData, users, pageMeta, availableGroupUserIds, getMembers, page, goNextPage, goPrevPage};
+    async function updateGroupId(memberId, groupId) {
+        try {
+            const { data } = await axios.put(`http://localhost/api/members/${memberId}`, {
+                change_to: groupId
+            })
+            return data.success
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+
+    return {rawData, users, pageMeta, availableGroupUserIds, getMembers, updateGroupId,  page, goNextPage, goPrevPage};
 });

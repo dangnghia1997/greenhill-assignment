@@ -1,11 +1,20 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
+import { onMounted } from 'vue'
+import { initFlowbite } from 'flowbite'
+
 import Group from "@/Components/Group.vue";
 import Table from "@/Components/Table.vue";
 import TableActions from "@/Components/TableActions.vue";
 import UploadArea from "@/Components/UploadArea.vue";
 import TableTitle from "@/Components/TableTitle.vue";
 import TablePagination from "@/Components/TablePagination.vue";
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+    initFlowbite();
+})
+
 </script>
 
 <template>

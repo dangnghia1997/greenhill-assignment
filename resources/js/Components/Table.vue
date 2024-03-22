@@ -4,7 +4,7 @@ import {storeToRefs} from "pinia";
 import {useUsersStore} from "@/stores/useUsersStore.js";
 
 const { users, availableGroupUserIds } = storeToRefs(useUsersStore())
-const { getMembers } = useUsersStore()
+const { getMembers, updateGroupId } = useUsersStore()
 
 onMounted(async () => {
     await getMembers();
@@ -14,17 +14,16 @@ const changedList = ref({});
 
 function onChange(event, userId) {
     changedList.value[userId] = event.target.value;
-    console.log('selected ', event.target.value, 'userId: ' + userId)
-    console.log(changedList.value)
 }
 
-function onUpdate(event, userId) {
-    console.log('updated ', event.target.value, 'userId: ' + userId)
+async function onUpdate(event, userId) {
     if (userId in changedList.value) {
-        console.log('existed');
-        console.log('HERE ', changedList.value[userId]);
         const changeToUserId = changedList.value[userId];
-        // TODO: send api update with changeToUserId param
+        const success = await updateGroupId(userId, changeToUserId);
+        if (success) {
+            getMembers();
+            alert('SUCCESS!');
+        }
     }
 }
 
