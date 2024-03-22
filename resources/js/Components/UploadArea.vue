@@ -1,4 +1,28 @@
 <script setup>
+import {ref} from "vue";
+
+const file = ref(null)
+
+async function onUploaded(event) {
+    file.value = event.target.files[0]
+    const uploaded = await uploadFile();
+    console.log(uploaded)
+}
+
+async function uploadFile() {
+    const formData = new FormData();
+    formData.append('file', file.value);
+    try {
+        const {data} = await axios.post(
+            `http://localhost/api/upload`,
+            formData
+        );
+        return data;
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
 
 </script>
 
@@ -12,7 +36,7 @@
                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span></p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">CSV, XLS, XLXS (MAXSIZE. 2MB)</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" />
+            <input id="dropzone-file" type="file" ref="file" @change="onUploaded" class="hidden" />
         </label>
     </div>
 </template>
