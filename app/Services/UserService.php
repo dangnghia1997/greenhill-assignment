@@ -67,13 +67,20 @@ class UserService implements UserServiceInterface
      */
     public function getUserIdsFromFile(int $fileId): array
     {
+        $key = "UPLOADED_FILE_$fileId";
+        if (Cache::has($key)) {
+            return Cache::get($key);
+        }
+
         $tempFile = $this->tempFileRepository->get($fileId);
         $path = Storage::path($tempFile?->path ?? '');
         $type = Str::title(File::extension($path));
         $result = $this->fileReader->read($path, $type);
         unset($result[0]); // Remove header row
-        return  array_map(function($row) {
+        $ids =  array_map(function($row) {
             return $row[0];
         }, $result);
+        Cache::put($key, $ids, 60 * 5);
+        return $ids;
     }
 }
