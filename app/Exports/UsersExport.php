@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-
 class UsersExport implements FromQuery, WithHeadings
 {
     use Exportable;
