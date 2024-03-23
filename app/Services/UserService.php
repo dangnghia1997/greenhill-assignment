@@ -77,9 +77,11 @@ class UserService implements UserServiceInterface
         $type = Str::title(File::extension($path));
         $result = $this->fileReader->read($path, $type);
         unset($result[0]); // Remove header row
+
         $ids =  array_map(function($row) {
             return $row[0];
         }, $result);
+
         Cache::put($key, $ids, 60 * 5);
         return $ids;
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Http\Requests\MemberBulkUpdateRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Http\Resources\UserCollection;
@@ -10,6 +11,8 @@ use App\Interfaces\UserServiceInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserController extends Controller
 {
@@ -71,5 +74,16 @@ class UserController extends Controller
         return response()->json([
             'success' => true
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response|BinaryFileResponse
+     */
+    public function download(Request $request): Response|BinaryFileResponse
+    {
+        $fileId = (int)$request->get('file_id', 0);
+        $ids = $this->userService->getUserIdsFromFile($fileId);
+        return (new UsersExport($ids))->download('users.xls');
     }
 }

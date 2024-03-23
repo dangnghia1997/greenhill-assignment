@@ -46,7 +46,7 @@ async function uploadFile() {
                 </svg>
                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                     class="font-semibold">Click to upload</span></p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">CSV, XLS, XLXS (MAXSIZE. 2MB)</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">CSV, XLS, XLXS (MAX SIZE: 2MB)</p>
             </div>
             <input id="dropzone-file" type="file" ref="file" @change="onUploaded" class="hidden"/>
         </label>

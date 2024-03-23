@@ -25,4 +25,10 @@ interface UserServiceInterface
      * @return int
      */
     public function changeGroupIdTo(int $userId, int $groupId): int;
+
+    /**
+     * @param int $fileId
+     * @return array
+     */
+    public function getUserIdsFromFile(int $fileId): array;
 }
